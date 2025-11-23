@@ -1,89 +1,90 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>毛孩狗狗計算機</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>毛孩狗狗計算機</title>
 
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-      font-family: Arial, sans-serif;
-      background: #fafafa;
-    }
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #fafafa;
+}
 
-    .container {
-      max-width: 600px;
-      margin: auto;
-      padding: 20px;
-      box-sizing: border-box;
-      text-align: center;
-    }
+.container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
 
-    h1 {
-      color: #333;
-    }
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
 
-    img {
-      width: 50%;          /* 調整到50% */
-      height: auto;
-      border-radius: 12px;
-      margin: 20px auto;   /* 上下間距 + 置中 */
-      display: block;
-    }
+img {
+  width: 50%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+  margin: 0 auto 20px auto; /* 置中 + 下方間距 */
+}
 
-    label {
-      font-weight: bold;
-    }
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
 
-    input[type="number"] {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      box-sizing: border-box;
-      margin-top: 8px;
-      margin-bottom: 16px;
-    }
+.date-inputs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
 
-    .date-inputs {
-      display: flex;
-      gap: 5px;
-    }
+.date-inputs input {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
 
-    .date-inputs input {
-      flex: 1;
-    }
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
 
-    button {
-      width: 100%;
-      padding: 12px;
-      font-size: 18px;
-      background-color: #4caf50;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
+button:hover {
+  background-color: #45a049;
+}
 
-    button:hover {
-      background-color: #45a049;
-    }
+.result {
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
 
-    .result {
-      margin-top: 20px;
-      padding: 15px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 0 6px rgba(0,0,0,0.1);
-      text-align: left;
-    }
+.result p {
+  margin: 5px 0;
+}
 
-    a {
-      word-break: break-all;
-    }
-  </style>
+a {
+  word-break: break-all;
+}
+</style>
 </head>
 <body>
 
@@ -92,7 +93,7 @@
 
   <img src="mei.JPG" alt="Your Dog">
 
-  <label>請輸入狗狗的出生日期：</label>
+  <label for="birthYear">請輸入狗狗的出生日期：</label>
   <div class="date-inputs">
     <input type="number" id="birthYear" placeholder="YYYY" />
     <input type="number" id="birthMonth" placeholder="MM" min="1" max="12" />
@@ -103,7 +104,7 @@
 
   <div id="result" class="result" style="display:none;"></div>
 
-  <p style="margin-top:20px; font-size:14px;">
+  <p style="font-size:14px;">
     📌 換算資料來源：<br>
     <a href="https://www.purina.co.uk/articles/dogs/health/age/how-to-calculate-dog-years-to-human-years" target="_blank">
       Purina UK - Dog Years to Human Years
@@ -176,7 +177,6 @@ function calculateAge() {
   resultDiv.style.display = "block";
   resultDiv.innerHTML = html;
 
-  // 儲存 localStorage
   localStorage.setItem("dogBirthDate", `${year}-${month}-${day}`);
   localStorage.setItem("dogResultHTML", html);
 }
