@@ -19,18 +19,18 @@
       margin: auto;
       padding: 20px;
       box-sizing: border-box;
+      text-align: center;
     }
 
     h1 {
-      text-align: center;
       color: #333;
     }
 
     img {
-      width: 100%;
+      width: 50%;          /* 調整到50% */
       height: auto;
       border-radius: 12px;
-      margin-bottom: 20px;
+      margin: 20px auto;   /* 上下間距 + 置中 */
       display: block;
     }
 
@@ -77,6 +77,7 @@
       background: white;
       border-radius: 8px;
       box-shadow: 0 0 6px rgba(0,0,0,0.1);
+      text-align: left;
     }
 
     a {
@@ -136,12 +137,12 @@ dayInput.addEventListener("input", () => {
   if (dayInput.value < 1 && dayInput.value !== "") dayInput.value = 1;
 });
 
-/* 補零函數 */
+// 補零函數
 function padZero(num) {
   return num.toString().padStart(2, "0");
 }
 
-/* 計算狗狗年齡 */
+// 計算狗狗年齡
 function calculateAge() {
   const year = yearInput.value;
   const month = padZero(monthInput.value);
@@ -180,7 +181,7 @@ function calculateAge() {
   localStorage.setItem("dogResultHTML", html);
 }
 
-/* 初始化：載入 localStorage */
+// 初始化：載入 localStorage
 window.onload = function() {
   const savedBirth = localStorage.getItem("dogBirthDate");
   const savedHtml = localStorage.getItem("dogResultHTML");
