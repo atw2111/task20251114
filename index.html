@@ -1,76 +1,191 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>毛孩狗狗年齡計算機</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>毛孩狗狗計算機</title>
+
   <style>
-    body { font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; padding: 20px; }
-    h1 { text-align: center; }
-    img { width: 100%; border-radius: 10px; margin-bottom: 20px; }
-    label { display: block; margin-top: 12px; font-weight: bold; }
-    input, button { width: 100%; padding: 10px; margin-top: 6px; border-radius: 6px; font-size: 1rem; }
-    button { background: #4caf50; color: white; border: none; cursor: pointer; }
-    button:hover { background: #43a047; }
-    .result { margin-top: 20px; padding: 14px; background: #f0fff0; border-left: 4px solid #8bc34a; border-radius: 6px; display: none; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      font-family: Arial, sans-serif;
+      background: #fafafa;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      box-sizing: border-box;
+      margin-top: 8px;
+      margin-bottom: 16px;
+    }
+
+    .date-inputs {
+      display: flex;
+      gap: 5px;
+    }
+
+    .date-inputs input {
+      flex: 1;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.1);
+    }
+
+    a {
+      word-break: break-all;
+    }
   </style>
 </head>
 <body>
-  <h1>🐶 毛孩狗狗年齡計算機</h1>
-  
-  <!-- 更新後的 Fox Terrier 圖片（Pixabay 授權） -->
-  <img src="https://images.unsplash.com/photo-1534361960057-19889db9621e?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="狗狗照片">
 
-  <label for="birth">請輸入狗狗的出生日期</label>
-  <input type="date" id="birth">
-  
-  <button onclick="calculateDogAge()">計算</button>
-  
-  <div id="result" class="result"></div>
-  
-  <div style="margin-top:14px; font-size:0.9rem; color:#145a86;">
-    換算參考來源：<a href="https://www.akc.org/expert-advice/health/how-to-calculate-dog-years-to-human-years/" target="_blank">AKC — How to calculate dog years to human years</a>
+  <div class="container">
+    <h1>🐶 毛孩狗狗年齡計算機</h1>
+
+    <!-- 你的狗狗照片 -->
+    <img src="mei.JPG" alt="Your Dog">
+
+    <label>請輸入狗狗的出生日期：</label>
+    <div class="date-inputs">
+      <input type="number" id="birthYear" placeholder="YYYY" maxlength="4" />
+      <input type="number" id="birthMonth" placeholder="MM" min="1" max="12" />
+      <input type="number" id="birthDay" placeholder="DD" min="1" max="31" />
+    </div>
+
+    <button onclick="calculateAge()">計算</button>
+
+    <div id="result" class="result" style="display:none;"></div>
+
+    <p style="margin-top:20px; font-size:14px;">
+      📌 換算資料來源：<br>
+      <a href="https://www.purina.co.uk/articles/dogs/health/age/how-to-calculate-dog-years-to-human-years" target="_blank">
+        Purina UK - Dog Years to Human Years
+      </a>
+    </p>
   </div>
-  
-  <script>
-    function calculateDogAge(){
-      const birthVal = document.getElementById('birth').value;
-      const out = document.getElementById('result');
-      out.style.display = 'none';
-      out.innerHTML = '';
-      
-      if (!birthVal) {
-        out.style.display = 'block';
-        out.innerHTML = '<strong>請先選擇出生日期。</strong>';
-        return;
-      }
 
-      const birth = new Date(birthVal);
-      const today = new Date();
-      if (birth > today) {
-        out.style.display = 'block';
-        out.innerHTML = '<strong>出生日期不能在未來。</strong>';
-        return;
-      }
+<script>
+  // 年份欄輸入4位自動跳到月份欄
+  const yearInput = document.getElementById("birthYear");
+  const monthInput = document.getElementById("birthMonth");
 
-      let ageYears = today.getFullYear() - birth.getFullYear();
-      const m = today.getMonth() - birth.getMonth();
-      const d = today.getDate() - birth.getDate();
-      if (m < 0 || (m === 0 && d < 0)) ageYears--;
-
-      let humanAge = 0;
-      if (ageYears <= 1) humanAge = ageYears * 15;
-      else if (ageYears <= 2) humanAge = 15 + (ageYears - 1) * 9;
-      else humanAge = 15 + 9 + (ageYears - 2) * 5;
-
-      out.style.display = 'block';
-      out.innerHTML = `
-        <div><strong>🐕 狗狗實際年齡：</strong> 約 ${ageYears} 歲</div>
-        <div style="margin-top:6px"><strong>👨‍🦳 換算成人類年齡：</strong> 約 ${humanAge} 歲</div>
-        <div style="margin-top:6px; font-size:0.9rem; color:#334455">（參考：AKC）</div>
-      `;
+  yearInput.addEventListener("input", () => {
+    if (yearInput.value.length >= 4) {
+      monthInput.focus();
     }
-  </script>
+  });
+
+  /* -----------------------
+     計算狗狗年齢
+  ------------------------ */
+  function calculateAge() {
+    const year = document.getElementById("birthYear").value;
+    const month = document.getElementById("birthMonth").value;
+    const day = document.getElementById("birthDay").value;
+
+    if (!year || !month || !day) {
+      alert("請完整輸入生日！");
+      return;
+    }
+
+    const birthDate = new Date(`${year}-${month}-${day}`);
+    const now = new Date();
+
+    const diffMs = now - birthDate;
+    const dogYears = diffMs / (1000 * 60 * 60 * 24 * 365.2425);
+    const dogAge = Math.floor(dogYears * 10) / 10;
+
+    let humanAge = 0;
+    if (dogAge >= 1) humanAge += 15;
+    if (dogAge >= 2) humanAge += 9;
+    if (dogAge > 2) humanAge += (dogAge - 2) * 5;
+
+    humanAge = Math.floor(humanAge * 10) / 10;
+
+    const html = `
+      <p>🐾 狗狗實際年齡：<strong>${dogAge} 歲</strong></p>
+      <p>👨‍🦳 換算成人類年齡：約 <strong>${humanAge} 歲</strong></p>
+    `;
+
+    const resultDiv = document.getElementById("result");
+    resultDiv.style.display = "block";
+    resultDiv.innerHTML = html;
+
+    // 儲存到 localStorage
+    localStorage.setItem("dogBirthDate", `${year}-${month}-${day}`);
+    localStorage.setItem("dogResultHTML", html);
+  }
+
+  /* -----------------------
+     初始化：載入 localStorage
+  ------------------------ */
+  window.onload = function () {
+    const savedBirth = localStorage.getItem("dogBirthDate");
+    const savedHtml = localStorage.getItem("dogResultHTML");
+
+    if (savedBirth) {
+      const parts = savedBirth.split("-");
+      if (parts.length === 3) {
+        document.getElementById("birthYear").value = parts[0];
+        document.getElementById("birthMonth").value = parts[1];
+        document.getElementById("birthDay").value = parts[2];
+      }
+    }
+
+    if (savedHtml) {
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = savedHtml;
+      resultDiv.style.display = "block";
+    }
+  };
+</script>
+
 </body>
 </html>
-
